@@ -28,6 +28,8 @@ public class JmsConfig {
 	public static final String DEALLOCATE_ORDER_QUEUE = "DEALLOCATE_ORDER_QUEUE";
 
 	public static final String  VALIDATE_FAILURE_QUEUE = "VALIDATE_FAILURE_QUEUE";
+	
+	public static final String VALIDATE_ORDER_RESPONSE_QUEUE = "VALIDATE_ORDER_RESPONSE_QUEUE";
 
     @Bean
     public MessageConverter messageConverter(){
