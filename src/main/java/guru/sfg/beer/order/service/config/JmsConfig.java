@@ -1,16 +1,10 @@
 package guru.sfg.beer.order.service.config;
 
-import javax.jms.Destination;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
-import guru.sfg.beer.order.service.sm.action.ValidateOrderAction;
-import guru.sfg.beer.order.service.web.mappers.BeerOrderMapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 public class JmsConfig {
@@ -30,6 +24,8 @@ public class JmsConfig {
 	public static final String  VALIDATE_FAILURE_QUEUE = "VALIDATE_FAILURE_QUEUE";
 	
 	public static final String VALIDATE_ORDER_RESPONSE_QUEUE = "VALIDATE_ORDER_RESPONSE_QUEUE";
+	
+	public static final String ALLOCATE_ORDER_RESPONSE_QUEUE = "ALLOCATE_ORDER_RESPONSE_QUEUE";
 
     @Bean
     public MessageConverter messageConverter(){

@@ -80,4 +80,10 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 		return sm;
 	}
 
+	@Override
+	public void processAllocationResult(UUID beerOrderId, boolean allocationError, boolean pendingInventory) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
