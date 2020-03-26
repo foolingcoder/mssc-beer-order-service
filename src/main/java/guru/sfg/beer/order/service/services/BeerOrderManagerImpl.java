@@ -2,6 +2,8 @@ package guru.sfg.beer.order.service.services;
 
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
@@ -28,12 +30,13 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
 	private StateMachineInterceptor<BeerOrderStatusEnum, BeerOrderEventEnum> beerOrderStateChangeInterceptor;
 
+	@Transactional
 	@Override
 	public BeerOrder newBeerOrder(BeerOrder beerOrder) {
 		beerOrder.setId(null);
 		beerOrder.setOrderStatus(BeerOrderStatusEnum.NEW);
 
-		BeerOrder savedBeerOrder = beerRepository.save(beerOrder);
+		BeerOrder savedBeerOrder = beerRepository.saveAndFlush(beerOrder);
 
 		sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
 

@@ -19,8 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class BeerServiceRestTemplateImpl implements BeerService {
 
-	private final String BEER_ID_PATH_V1 = "/api/v1/beer/{beerId}";
-	private final String BEER_UPC_PATH_V1 = "/api/v1/beerUpc/{upc}";
+	private  final static String BEER_ID_PATH_V1 = "/api/v1/beer/{beerId}";
+	public final static String BEER_UPC_PATH = "/api/v1/beerUpc/";
+	private  final static String BEER_UPC_PATH_V1 = BEER_UPC_PATH + "{upc}";
 	
 	private final RestTemplate restTemplate;		
 
