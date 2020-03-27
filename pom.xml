@@ -40,6 +40,7 @@
 	        <groupId>com.github.tomakehurst</groupId>
 	        <artifactId>wiremock</artifactId>
 	        <version>2.24.1</version>
+	        <scope>test</scope>
 	    </dependency>
 
 		<dependency>

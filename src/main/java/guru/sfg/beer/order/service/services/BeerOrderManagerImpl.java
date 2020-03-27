@@ -28,7 +28,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
 	private final StateMachineFactory<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachineFactory;
 
-	private StateMachineInterceptor<BeerOrderStatusEnum, BeerOrderEventEnum> beerOrderStateChangeInterceptor;
+	private final StateMachineInterceptor<BeerOrderStatusEnum, BeerOrderEventEnum> beerOrderStateChangeInterceptor;
 
 	@Transactional
 	@Override
@@ -38,7 +38,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
 		BeerOrder savedBeerOrder = beerRepository.saveAndFlush(beerOrder);
 
-		sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
+		sendBeerOrderEvent(savedBeerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
 
 		return savedBeerOrder;
 	}
@@ -60,7 +60,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 		StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = build(beerOrder);
 
 		Message<BeerOrderEventEnum> message = MessageBuilder.withPayload(beerOrderEventEnum)
-				.setHeader(ORDER_ID_HEADER, beerOrder.getId()).build();
+				.setHeader(ORDER_ID_HEADER, beerOrder.getId().toString()).build();
 
 		sm.sendEvent(message);
 
