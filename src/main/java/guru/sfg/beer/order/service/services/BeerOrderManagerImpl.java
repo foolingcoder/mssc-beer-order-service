@@ -1,5 +1,6 @@
 package guru.sfg.beer.order.service.services;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -17,7 +18,9 @@ import guru.sfg.beer.order.service.domain.BeerOrderEventEnum;
 import guru.sfg.beer.order.service.domain.BeerOrderStatusEnum;
 import guru.sfg.beer.order.service.repositories.BeerOrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BeerOrderManagerImpl implements BeerOrderManager {
@@ -45,14 +48,17 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
 	@Override
 	public void processValidationResult(UUID beerOrderId, boolean isValid) {
-
-		BeerOrder beerOrder = beerRepository.getOne(beerOrderId);
-
-		if (isValid) {
-			sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
-		} else {
-			sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
-		}
+				
+	    beerRepository.findById(beerOrderId).ifPresentOrElse((beerOrder ->{
+	    	if (isValid) {
+				sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
+			} else {
+				sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
+			}	
+	        }),
+	    	()->{ 
+	    		log.debug("BeerOrderId is invalid: ",beerOrderId);
+	    	});		
 	}
 
 	private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum beerOrderEventEnum) {
@@ -85,7 +91,16 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
 	@Override
 	public void processAllocationResult(UUID beerOrderId, boolean allocationError, boolean pendingInventory) {
-		// TODO Auto-generated method stub
+	    beerRepository.findById(beerOrderId).ifPresentOrElse((beerOrder ->{
+	    	if (!allocationError && !pendingInventory) {
+				sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+			} else {
+				sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
+			}	
+	        }),
+	    	()->{ 
+	    		log.debug("BeerOrderId is invalid: ",beerOrderId);
+	    	});		
 		
 	}
 

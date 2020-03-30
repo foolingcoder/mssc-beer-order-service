@@ -32,7 +32,7 @@ import guru.sfg.beer.order.service.services.beer.BeerServiceRestTemplateImpl;
 import guru.sfg.brewery.model.BeerDto;
 
 @SpringBootTest
-public class BeerOrderManagerImplIT {
+public class BeerOrderManagerImplIntegrationTests {
 
 	@Autowired
 	BeerOrderManager beerOrderManager;
@@ -68,10 +68,6 @@ public class BeerOrderManagerImplIT {
 
 	@BeforeEach
 	void setUp() {
-
-		// wireMockServer = new WireMockServer(wireMockConfig().port(8084));
-		// wireMockServer.start();
-
 		testCustomer = customerRepository.save(Customer.builder().customerName("Test Customer").build());
 	}
 
@@ -85,9 +81,18 @@ public class BeerOrderManagerImplIT {
 		BeerOrder beerOrder = createBeerOrder();
 
 		BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+		
+		System.out.println("Sleeping.......");
+		
+		Thread.sleep(5000);
+		
+		System.out.println("Awake.......");
+	
+		BeerOrder savedBeerOrder2 = beerOrderRepository.findById(savedBeerOrder.getId()).get();
+		
 
-		assertNotNull(savedBeerOrder);
-		assertEquals(BeerOrderStatusEnum.ALLOCATED, savedBeerOrder.getOrderStatus());
+		assertNotNull(savedBeerOrder2);
+		assertEquals(BeerOrderStatusEnum.ALLOCATED, savedBeerOrder2.getOrderStatus());
 
 	}
 
