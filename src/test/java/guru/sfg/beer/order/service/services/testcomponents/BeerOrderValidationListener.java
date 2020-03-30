@@ -9,9 +9,7 @@ import guru.sfg.beer.order.service.config.JmsConfig;
 import guru.sfg.brewery.model.events.ValidateOrderRequest;
 import guru.sfg.brewery.model.events.ValidateOrderResult;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
 public class BeerOrderValidationListener {
@@ -19,7 +17,7 @@ public class BeerOrderValidationListener {
 	private final JmsTemplate jmsTemplate;
 
 	@JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
-	public void list(Message msg) {
+	public void list(Message<ValidateOrderRequest> msg) {
 
 		boolean isValid = true;
 		boolean sendResponse = true;

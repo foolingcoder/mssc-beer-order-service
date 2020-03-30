@@ -3,6 +3,7 @@ package guru.sfg.beer.order.service.services;
 import java.util.UUID;
 
 import guru.sfg.beer.order.service.domain.BeerOrder;
+import guru.sfg.brewery.model.BeerOrderDto;
 
 public interface BeerOrderManager {
 	
@@ -10,6 +11,10 @@ public interface BeerOrderManager {
 
 	void processValidationResult(UUID beerOrderId, boolean isValid);
 
-	void processAllocationResult(UUID beerOrderId, boolean allocationError, boolean pendingInventory);
+	void beerOrderAllocationPassed(BeerOrderDto beerOrderDto);
+
+	void beerOrderAllocationPendingInventory(BeerOrderDto beerOrderDto);
+
+	void beerOrderAllocationFailed(BeerOrderDto beerOrderDto);
 
 }
