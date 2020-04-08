@@ -15,22 +15,17 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package guru.sfg.brewery.model;
+package guru.sfg.beer.order.service.web.mappers;
 
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.mapstruct.Mapper;
 
-import java.util.List;
+import guru.sfg.beer.order.service.domain.Customer;
+import guru.sfg.brewery.model.CustomerDto;
 
-public class BeerOrderPagedList extends PageImpl<BeerOrderDto> {
+@Mapper(uses = { DateMapper.class })
+public interface CustomerMapper {
 
-	private static final long serialVersionUID = -6655761711192836985L;
+	CustomerDto customerToDto(Customer customer);
 
-	public BeerOrderPagedList(List<BeerOrderDto> content, Pageable pageable, long total) {
-        super(content, pageable, total);
-    }
-
-    public BeerOrderPagedList(List<BeerOrderDto> content) {
-        super(content);
-    }
+	Customer dtoToCustomer(CustomerDto dto);
 }

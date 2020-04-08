@@ -15,22 +15,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package guru.sfg.brewery.model;
+package guru.sfg.beer.order.service.services;
 
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import guru.sfg.brewery.model.CustomerPagedList;
 
-public class BeerOrderPagedList extends PageImpl<BeerOrderDto> {
+public interface CustomerService {
 
-	private static final long serialVersionUID = -6655761711192836985L;
+	CustomerPagedList listCustomers(Pageable pageable);
 
-	public BeerOrderPagedList(List<BeerOrderDto> content, Pageable pageable, long total) {
-        super(content, pageable, total);
-    }
-
-    public BeerOrderPagedList(List<BeerOrderDto> content) {
-        super(content);
-    }
 }
