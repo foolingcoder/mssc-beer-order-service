@@ -61,7 +61,7 @@ public class BeerOrderManagerImplIntegrationTests {
 	static class RestTemplateBuilderProvider {
 		@Bean(destroyMethod = "stop")
 		public WireMockServer wireMockServer() {
-			WireMockServer wireMockServer = new WireMockServer(wireMockConfig().port(8084));
+			WireMockServer wireMockServer = new WireMockServer(wireMockConfig().port(8083));
 			wireMockServer.start();
 			return wireMockServer;
 		}
